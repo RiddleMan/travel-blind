@@ -8,5 +8,9 @@ module.exports = {
     uri: 'mongodb://localhost/travelblind-dev'
   },
 
+  maps: {
+    apiKey: 'AIzaSyCeuogpK73JNlQ9cT4Ok-ZH-4PrtIc1Ir0'
+  },
+
   seedDB: true
 };

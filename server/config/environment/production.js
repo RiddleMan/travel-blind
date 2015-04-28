@@ -19,5 +19,9 @@ module.exports = {
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
             'mongodb://localhost/travelblind'
-  }
+  },
+
+  maps: {
+    apiKey: 'AIzaSyCeuogpK73JNlQ9cT4Ok-ZH-4PrtIc1Ir0'
+  },
 };
