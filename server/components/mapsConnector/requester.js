@@ -3,7 +3,7 @@ var request = require('request');
 var _ = require('lodash');
 
 function buildUrl(secure) {
-  var protocol = secure ? 'https' : 'https';
+  var protocol = secure ? 'https' : 'http';
 
   return protocol + '://maps.googleapis.com/maps/api';
 }
@@ -33,7 +33,7 @@ module.exports = function Requester(options) {
       .get(_authenticateUrl(_baseUrl + url),
         function(err, response, body) {
           if(err || response.statusCode !== 200)
-            return deferred.reject(err);
+            deferred.reject(err || response);
 
           deferred.resolve(response);
       });
