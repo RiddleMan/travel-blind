@@ -1,11 +1,30 @@
 var Q = require('q');
 var request = require('request');
 var _ = require('lodash');
+var url = require('url');
+var changeCase = require('change-case');
 
-function buildUrl(secure) {
-  var protocol = secure ? 'https' : 'http';
+function buildBaseUrl(secure, key) {
+  return {
+    host: 'maps.googleapis.com',
+    pathname: '/maps/api/',
+    protocol: secure ? 'https' : 'http',
+    query: {
+      key: key
+    }
+  };
+}
 
-  return protocol + '://maps.googleapis.com/maps/api';
+function prepareUrl(rqUrl, apiUrl, options) {
+  var _options = _.reduce(_.keys(options), function(result, key) {
+    result[changeCase.snakeCase(key)] = options[key];
+    return result;
+  }, {});
+
+  rqUrl.query = _.extend(_options, rqUrl.query);
+  rqUrl.pathname = url.resolve(rqUrl.pathname, apiUrl.indexOf('/') === 0 ? apiUrl.substr(1) : apiUrl);
+
+  return url.format(rqUrl);
 }
 
 module.exports = function Requester(options) {
@@ -22,15 +41,17 @@ module.exports = function Requester(options) {
     secure: true,
   }, options);
 
-  _baseUrl = buildUrl(_options.secure);
+  _baseUrl = buildBaseUrl(_options.secure, _options.apiKey);
 
-  function _get(url) {
+  function _get(rqUrl, options) {
     var deferred = Q.defer();
-    if(!url)
+    if(!rqUrl)
       throw new Error('No url was specified');
 
+    var resultUrl = prepareUrl(_.cloneDeep(_baseUrl), rqUrl, options);
+
     request
-      .get(_authenticateUrl(_baseUrl + url),
+      .get(resultUrl,
         function(err, response, body) {
           if(err || response.statusCode !== 200)
             deferred.reject(err || response);
@@ -39,12 +60,6 @@ module.exports = function Requester(options) {
       });
 
     return deferred.promise;
-  }
-
-  function _authenticateUrl(url) {
-    return url.indexOf('?') !== -1 ?
-      url + '&key=' + _options.apiKey
-      : url + '?key=' + _options.apiKey;
   }
 
   return {

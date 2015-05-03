@@ -2,6 +2,9 @@ var requester = require('./requester');
 var should = require('should');
 var sinon = require('sinon');
 var request = require('request');
+var url = require('url');
+var _ = require('lodash');
+
 var config = {
   maps: {
     apiKey: 'test'
@@ -83,16 +86,52 @@ describe('Requester', function() {
       var urlSuffix = '/test';
 
       getSpy = sinon.stub(request, 'get', function(url, cb) {
-          //tutaj napisz coś co sprawdzi
-          // czy dodał do urla https://maps.googleapis.com/maps/api
-          //skorzystaj z zmienna.should.be.equal(<tutaj_wartosc>)
-          url.should.be.equal("http://maps.googleapis.com/maps/api"+urlSuffix+"?key="+config.maps.apiKey);
+          url.should.be.equal('http://maps.googleapis.com/maps/api' +
+            urlSuffix + '?key=' + config.maps.apiKey);
           done();
       });
 
       instance.get(urlSuffix);
     });
 
+    it('should add optional parameter to url', function(done) {
+      var options = {
+        test: 'a'
+      };
+      var apiUrl = 'test';
+
+      getSpy = sinon.stub(request, 'get', function(rqUrl, cb) {
+        var expectUrl = url.parse(url.resolve('http://maps.googleapis.com/maps/api/', apiUrl));
+        expectUrl.query = _.extend(options, {
+          key: config.maps.apiKey
+        });
+
+        rqUrl.should.be.equal(url.format(expectUrl));
+        done();
+      });
+
+      instance.get(apiUrl, options);
+    });
+
+    it('should pass parameters in snake case', function(done) {
+      var options = {
+        test: 'a',
+        'snake_case': 'blabla'
+      };
+      var apiUrl = 'test';
+
+      getSpy = sinon.stub(request, 'get', function(rqUrl, cb) {
+        var expectUrl = url.parse(url.resolve('http://maps.googleapis.com/maps/api/', apiUrl));
+        expectUrl.query = _.extend(options, {
+          key: config.maps.apiKey
+        });
+
+        rqUrl.should.be.equal(url.format(expectUrl));
+        done();
+      });
+
+      instance.get(apiUrl, options);
+    });
   });
 
 })
