@@ -57,8 +57,11 @@ describe('Requester', () =>  {
     it('should respond without error', (done) => {
       getSpy = sinon.stub(request, 'get', (url, cb) => {
         cb(undefined, {
-          statusCode: 200
-        }, {});
+          statusCode: 200,
+          body: JSON.stringify({
+
+          })
+        });
       });
 
       instance.get('/url')
@@ -70,13 +73,13 @@ describe('Requester', () =>  {
 
     it('should respond with error when statusCode !== 200', (done) => {
       getSpy = sinon.stub(request, 'get', (url, cb) => {
-        cb('asdfasdf', {
+        cb(undefined, {
           statusCode: 300
         });
       });
 
       instance.get('/test')
-        .then(() => {}, function(err) {
+        .then(() => {}, (err) => {
           err.should.be.ok;
           done();
         });
