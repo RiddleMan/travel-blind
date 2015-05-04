@@ -58,7 +58,7 @@ describe('Requester', () =>  {
       getSpy = sinon.stub(request, 'get', (url, cb) => {
         cb(undefined, {
           statusCode: 200
-        });
+        }, {});
       });
 
       instance.get('/url')

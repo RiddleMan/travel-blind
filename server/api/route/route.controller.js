@@ -8,7 +8,7 @@ var maps = require('../../components/mapsConnector')(config.maps);
 exports.index = function(req, res) {
   maps.directions.get(req.query)
     .then(function(response) {
-      return res.json(response);
+      return res.json(200, response);
 
     })
 };

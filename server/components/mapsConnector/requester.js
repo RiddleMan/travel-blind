@@ -56,7 +56,9 @@ module.exports = function Requester(options) {
           if(err || response.statusCode !== 200)
             deferred.reject(err || response);
 
-          deferred.resolve(response);
+          console.dir(response);
+
+          deferred.resolve(JSON.parse(response.body));
       });
 
     return deferred.promise;
