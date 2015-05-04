@@ -4,23 +4,23 @@ var requester = require('./requester');
 var _ = require('lodash');
 var sinon = require('sinon');
 
-describe('MapsConnector', function() {
-  it('should be defined', function () {
+describe('MapsConnector', () => {
+  it('should be defined', () => {
     MapsConnector.should.be.ok;
   });
 
-  it('should be a object', function () {
+  it('should be a object', () => {
     (typeof MapsConnector).should.equal('function');
   });
 
-  describe('#constructor()', function() {
-    it('should create a instance', function() {
+  describe('#constructor()', () => {
+    it('should create a instance', () => {
       MapsConnector({
         apiKey: 'key'
       }).should.be.ok;
     });
 
-    it('should create a instance of requester with specified paremeters', function() {
+    it('should create a instance of requester with specified paremeters', () => {
       var _options = {
         apiKey: 'asdf',
         secure: true
@@ -33,24 +33,24 @@ describe('MapsConnector', function() {
     });
   });
 
-  describe('.directions', function() {
+  describe('.directions', () => {
     var instance;
 
-    beforeEach(function() {
+    beforeEach(() => {
       instance = MapsConnector({
         apiKey: 'asdf'
       });
     })
 
-    it('should be defined', function() {
+    it('should be defined', () => {
       instance.directions.should.be.ok;
     });
 
-    it('should have get property', function() {
+    it('should have get property', () => {
       instance.directions.get.should.be.ok;
     });
 
-    it('should have connection property', function() {
+    it('should have connection property', () => {
       instance.directions.connection.should.be.ok;
     });
   });
