@@ -19,11 +19,11 @@ module.exports = function Directions(requester) {
     if(!options.destination)
       throw new Error('destination option is required');
 
-    requester.get(DIRECTIONS_URL, options);
+    return requester.get(DIRECTIONS_URL, options);
   }
 
   function _connection(origin, destination) {
-    _get({
+    return _get({
       origin: origin,
       destination: destination
     });

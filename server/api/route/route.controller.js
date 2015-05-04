@@ -1,10 +1,16 @@
 'use strict';
 
 var _ = require('lodash');
+var config = require('../../config/environment');
+var maps = require('../../components/mapsConnector')(config.maps);
 
 // Get connection from point A to B
-exports.connection = function(req, res) {
-    return res.json(200, {});
+exports.index = function(req, res) {
+  maps.directions.get(req.query)
+    .then(function(response) {
+      return res.json(response);
+
+    })
 };
 
 function handleError(res, err) {

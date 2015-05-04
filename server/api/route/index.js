@@ -5,6 +5,6 @@ var controller = require('./route.controller');
 
 var router = express.Router();
 
-router.get('/connection', controller.connection);
+router.get('/', controller.index);
 
 module.exports = router;
