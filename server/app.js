@@ -3,7 +3,9 @@
  */
 
 'use strict';
-require("babel/register");
+require("babel/register")({
+    sourceMap: 'both'
+});
 
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';

@@ -3,6 +3,7 @@ var request = require('request');
 var _ = require('lodash');
 var url = require('url');
 var changeCase = require('change-case');
+var parseString = require('xml2js').parseString;
 
 function buildBaseUrl(secure, key) {
   return {
@@ -56,7 +57,12 @@ module.exports = function Requester(options) {
           if(err || response.statusCode !== 200)
             return deferred.reject(err || response);
 
-          deferred.resolve(JSON.parse(response.body));
+          parseString(response.body, function (err, result) {
+            if(err || result.DirectionsResponse.error_message)
+              return deferred.reject(err || result.DirectionsResponse.error_message[0]);
+
+            deferred.resolve(result);
+          });
       });
 
     return deferred.promise;

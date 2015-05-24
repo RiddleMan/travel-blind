@@ -1,6 +1,6 @@
 var _ = require('lodash');
 
-var DIRECTIONS_URL = '/directions/json';
+var DIRECTIONS_URL = '/directions/xml';
 
 module.exports = function Directions(requester) {
   if(!requester)

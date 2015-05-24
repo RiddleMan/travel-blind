@@ -69,7 +69,7 @@ describe('Directions', () => {
     });
 
     it('should query requester to directions apiUrl with options', (done) => {
-      var _apiUrl = '/directions/json';
+      var _apiUrl = '/directions/xml';
       var _options = {
         origin: 'asdf',
         destination: 'asdf'
