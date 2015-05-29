@@ -1,0 +1,82 @@
+<html>
+<head>
+	<title>speech recognition</title>
+	<meta charset="UTF-8" />
+</head>
+<body>
+	<script type="text/javascript">
+
+
+    
+
+    function speak(text, callback) {
+            var u = new SpeechSynthesisUtterance();
+            u.text = text;
+            u.lang = 'en-US';
+
+
+            u.onend = function () {
+                if (callback) {
+                    callback();
+                }
+            };
+     
+            u.onerror = function (e) {
+                if (callback) {
+                    callback(e);
+                }
+            };
+            speechSynthesis.speak(u);
+        }   
+
+
+
+
+
+	function hear(callback) {
+        
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US' ;
+        
+        recognition.onend = function (e) {
+            if (callback) {
+                callback('no results');
+            }
+        };
+ 		recognition.onresult = function (e) {
+ 			console.dir(e);
+            recognition.onend = null;
+            if (callback) {
+                callback(null, {
+                    transcript: e.results[0][0].transcript,
+                    confidence: e.results[0][0].confidence
+                });
+            }
+        };
+
+        recognition.start();
+    }
+
+    speak('Hello! Please enter starting point.', function() {
+        var res = true;
+    });
+    hear(function(err, res){
+        if(err)
+            return err;
+
+        console.log(res);
+    });
+    if ( res === true) {
+    speak('Next, Please enter a destination', function(){
+        var res = true;
+    });
+   }
+   hear();
+
+
+    </script> 
+
+</body>
+</html>
