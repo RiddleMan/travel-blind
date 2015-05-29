@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
 </head>
 <body>
+    <div id="click" onclick="getStartingPoint()">"Click Here"</div>
 	<script type="text/javascript">
 
 
@@ -36,17 +37,11 @@
 	function hear(callback) {
         
         var recognition = new webkitSpeechRecognition();
-        recognition.continuous = false;
+        recognition.continuous = true;
         recognition.interimResults = false;
         recognition.lang = 'en-US' ;
         
-        recognition.onend = function (e) {
-            if (callback) {
-                callback('no results');
-            }
-        };
  		recognition.onresult = function (e) {
- 			console.dir(e);
             recognition.onend = null;
             if (callback) {
                 callback(null, {
@@ -55,27 +50,105 @@
                 });
             }
         };
+        recognition.onend = function (e) {
+            if (callback) {
+                callback('no results');
+            }
+        };
 
         recognition.start();
     }
 
-    speak('Hello! Please enter starting point.', function() {
-        var res = true;
-    });
-    hear(function(err, res){
-        if(err)
-            return err;
 
-        console.log(res);
-    });
-    if ( res === true) {
-    speak('Next, Please enter a destination', function(){
-        var res = true;
-    });
-   }
-   hear();
+    var res;
+    var tab = [];
+
+    function getCommands() {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", 'http://127.0.0.1:8080/result.xml', false );
+        xmlHttp.send( null );
+        if (xmlHttp.status == 200)
+
+            return xmlHttp.responseXML.querySelectorAll('step');
+            
+    }
+    var a = getCommands();
+    
+    
+
+    function getInnerHTML(steps) {
+        var tab =[];
+
+        for (var i = 0; i < steps.length; i++) {
+            tab[i] = steps[i].innerHTML;
+
+        }
+        return tab;
+    }
+
+    function spekAll (route) {
+        for (var i = 0; i < route.length; i++) {
+            speak(route[i]);
+        }
+    }
 
 
+    function getEndPoint() {
+        speak('Next, Please enter a destination', function() {
+            hear(function(err, res){
+                if(err)
+                    return err;
+
+                if (res.confidence > 0.9) {
+                    tab.push(res.transcript);
+
+
+                } else {
+                    speak('Please repeat again');
+                    hear(function(err, res){
+                        if(err)
+                            return err;
+
+                        if (res.confidence >0.9) {
+                            tab.push(res.transcript);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    function getStartingPoint() {
+        speak('Hello! Please enter starting point.', function() {
+            hear(function(err, res){
+                if(err)
+                    return err;
+
+                if (res.confidence > 0.9) {
+                    tab.push(res.transcript);
+                    getEndPoint();
+                } else {
+                    speak('Please repeat again');
+                    hear(function(err, res){
+                        if(err)
+                            return err;
+
+                        if (res.confidence >0.9) {
+                            tab.push(res.transcript);
+                        }
+                    });
+                }
+            });
+        });
+    }
+    getInnerHTML(a);
+    var res = getInnerHTML(a);
+
+    getStartingPoint();
+
+    spekAll(res);
+ 
+    
     </script> 
 
 </body>
