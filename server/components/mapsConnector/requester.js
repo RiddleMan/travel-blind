@@ -61,7 +61,7 @@ module.exports = function Requester(options) {
             if(err || result.DirectionsResponse.error_message)
               return deferred.reject(err || result.DirectionsResponse.error_message[0]);
 
-            deferred.resolve(result);
+            deferred.resolve(response.body);
           });
       });
 

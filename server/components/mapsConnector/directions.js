@@ -25,7 +25,8 @@ module.exports = function Directions(requester) {
   function _connection(origin, destination) {
     return _get({
       origin: origin,
-      destination: destination
+      destination: destination,
+      mode: 'transit'
     });
   }
 
