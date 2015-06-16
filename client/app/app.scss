@@ -15,10 +15,17 @@ $fa-font-path: "/bower_components/font-awesome/fonts";
     padding: 0.2em 0;
 }
 
+body, html, .runBtn {
+  width: 100%;
+  height: 100%;
+}
+
+.runBtn {
+  background-color: #7273EF;
+  color: white;
+  font-size: 50px;
+}
+
 // Component styles are injected through grunt
 // injector
-@import 'account/login/login.scss';
-@import 'admin/admin.scss';
-@import 'main/main.scss';
-@import 'modal/modal.scss';
 // endinjector

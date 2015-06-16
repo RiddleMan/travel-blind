@@ -6,6 +6,7 @@ var sinon = require('sinon');
 
 describe('MapsConnector', () => {
   it('should be defined', () => {
+    //jshint -W030
     MapsConnector.should.be.ok;
   });
 
@@ -15,6 +16,8 @@ describe('MapsConnector', () => {
 
   describe('#constructor()', () => {
     it('should create a instance', () => {
+      //jshint -W064
+      //jshint -W030
       MapsConnector({
         apiKey: 'key'
       }).should.be.ok;
@@ -42,20 +45,24 @@ describe('MapsConnector', () => {
     var instance;
 
     beforeEach(() => {
+      //jshint -W064
       instance = MapsConnector({
         apiKey: 'asdf'
       });
     })
 
     it('should be defined', () => {
+      //jshint -W030
       instance.directions.should.be.ok;
     });
 
     it('should have get property', () => {
+      //jshint -W030
       instance.directions.get.should.be.ok;
     });
 
     it('should have connection property', () => {
+      //jshint -W030
       instance.directions.connection.should.be.ok;
     });
   });

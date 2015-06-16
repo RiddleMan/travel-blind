@@ -9,6 +9,7 @@ var config = require('../../config/environment/test');
 describe('Directions', () => {
   describe('#constructor()', () => {
     it('should be defined and function', () => {
+      //jshint -W030
       directions.should.be.ok;
       (typeof directions).should.equal('function');
     });
@@ -21,6 +22,7 @@ describe('Directions', () => {
 
     it('should create an instance', () => {
       var instance = directions({});
+      //jshint -W030
       instance.should.be.ok;
       (typeof instance).should.equal('object');
     })
@@ -35,6 +37,7 @@ describe('Directions', () => {
     });
 
     it('should be defined', () => {
+      //jshint -W030
       instance.get.should.be.ok;
     });
 
@@ -94,6 +97,7 @@ describe('Directions', () => {
     });
 
     it('should be defined', () => {
+      //jshint -W030
       instance.connection.should.be.ok;
     });
 
@@ -122,6 +126,7 @@ describe('Directions', () => {
 
       requesterMock.get = (url, options) => {
         url.should.equal(_apiUrl);
+        //jshint -W030
         _.isEqual(options, _options).should.be.ok;
         done();
       };

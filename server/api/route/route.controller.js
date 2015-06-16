@@ -24,8 +24,15 @@ function gMapsCheck(res, body) {
           units: 'metric'
       });
     })
-    .then((response) => xmlActions.transform(response))
-    .then((response) => xml(res, response.stdout, 200));
+    .then((response) => xmlActions.transform(response), (err) => fiveHundred(res))
+    .then((response) => xml(res, response.stdout, 200), (err) => fiveHundred(res));
+}
+
+function fiveHundred(res) {
+  xml(res, `
+    <xml>
+      <error>Unexpected server error</error>
+    </xml>`, 500);
 }
 
 function mapBody(body) {
@@ -46,6 +53,7 @@ module.exports.index = function(req, res, body) {
   xmlActions.validate(req.body)
     .then((result) => {
       if(result) {
+        console.log('asdf');
         return gMapsCheck(res, req.body);
       } else {
         xml(res, `<xml>
@@ -54,8 +62,5 @@ module.exports.index = function(req, res, body) {
           </response>`, 400);
       }
     })
-    .catch((err) => xml(res, `
-      <xml>
-        <error>Unexpected server error</error>
-      </xml>`, 500));
+    .catch((err) => fiveHundred(res));
 };

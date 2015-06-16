@@ -21,6 +21,7 @@ describe('Requester', () =>  {
   });
 
   it('should be defined', () =>  {
+    //jshint -W030
     instance.should.be.ok;
   });
 
@@ -45,6 +46,7 @@ describe('Requester', () =>  {
     });
 
     it('should be defined', () =>  {
+      //jshint -W030
       instance.get.should.be.ok;
     });
 
@@ -66,6 +68,7 @@ describe('Requester', () =>  {
 
       instance.get('/url')
         .then(function(response) {
+          //jshint -W030
           response.should.be.ok;
           done();
         });
@@ -80,6 +83,7 @@ describe('Requester', () =>  {
 
       instance.get('/test')
         .then(() => {}, (err) => {
+          //jshint -W030
           err.should.be.ok;
           done();
         });

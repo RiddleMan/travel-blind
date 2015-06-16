@@ -69,17 +69,17 @@ module.exports = function (grunt) {
         ],
         tasks: ['injector:css']
       },
-      mochaTest: {
-        files: ['server/**/*.spec.js'],
-        tasks: ['env:test', 'mochaTest']
-      },
-      jsTest: {
-        files: [
-          '<%= yeoman.client %>/{app,components}/**/*.spec.js',
-          '<%= yeoman.client %>/{app,components}/**/*.mock.js'
-        ],
-        tasks: ['newer:jshint:all', 'karma']
-      },
+      // mochaTest: {
+      //   files: ['server/**/*.spec.js'],
+      //   tasks: ['env:test', 'mochaTest']
+      // },
+      // jsTest: {
+      //   files: [
+      //     '<%= yeoman.client %>/{app,components}/**/*.spec.js',
+      //     '<%= yeoman.client %>/{app,components}/**/*.mock.js'
+      //   ],
+      //   tasks: ['newer:jshint:all', 'karma']
+      // },
       injectSass: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.{scss,sass}'],
@@ -599,47 +599,47 @@ module.exports = function (grunt) {
     grunt.task.run(['serve']);
   });
 
-  grunt.registerTask('test', function(target) {
-    if (target === 'server') {
-      return grunt.task.run([
-        'env:all',
-        'env:test',
-        'mochaTest'
-      ]);
-    }
-
-    else if (target === 'client') {
-      return grunt.task.run([
-        'clean:server',
-        'env:all',
-        'injector:sass',
-        'concurrent:test',
-        'injector',
-        'autoprefixer',
-        'karma'
-      ]);
-    }
-
-    else if (target === 'e2e') {
-      return grunt.task.run([
-        'clean:server',
-        'env:all',
-        'env:test',
-        'injector:sass',
-        'concurrent:test',
-        'injector',
-        'wiredep',
-        'autoprefixer',
-        'express:dev',
-        'protractor'
-      ]);
-    }
-
-    else grunt.task.run([
-      'test:server',
-      'test:client'
-    ]);
-  });
+  // grunt.registerTask('test', function(target) {
+  //   if (target === 'server') {
+  //     return grunt.task.run([
+  //       'env:all',
+  //       'env:test',
+  //       'mochaTest'
+  //     ]);
+  //   }
+  //
+  //   else if (target === 'client') {
+  //     return grunt.task.run([
+  //       'clean:server',
+  //       'env:all',
+  //       'injector:sass',
+  //       'concurrent:test',
+  //       'injector',
+  //       'autoprefixer',
+  //       'karma'
+  //     ]);
+  //   }
+  //
+  //   else if (target === 'e2e') {
+  //     return grunt.task.run([
+  //       'clean:server',
+  //       'env:all',
+  //       'env:test',
+  //       'injector:sass',
+  //       'concurrent:test',
+  //       'injector',
+  //       'wiredep',
+  //       'autoprefixer',
+  //       'express:dev',
+  //       'protractor'
+  //     ]);
+  //   }
+  //
+  //   else grunt.task.run([
+  //     'test:server',
+  //     'test:client'
+  //   ]);
+  // });
 
   grunt.registerTask('build', [
     'clean:dist',
@@ -662,7 +662,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'newer:jshint',
-    'test',
+    // 'test',
     'build'
   ]);
 };
