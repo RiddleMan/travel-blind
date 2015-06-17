@@ -76,7 +76,11 @@ var recognition = new window.webkitSpeechRecognition();
 				xmlHttp.setRequestHeader('Content-Type', 'application/xml');
         xmlHttp.send( xml );
         if (xmlHttp.status === 200) {
-          speakAll(getInnerHTML(xmlHttp.responseXML.querySelectorAll('step')));
+          if(!xmlHttp.responseXML.querySelector('error')) {
+            speakAll(getInnerHTML(xmlHttp.responseXML.querySelectorAll('step')));
+          } else {
+            speak('There is no results for this query');
+          }
         } else {
           speak('Server errors try again later.');
         }
